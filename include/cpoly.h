@@ -11,7 +11,8 @@ typedef unsigned long cpoly_fmt_type;
 typedef enum cpoly_type {
     CTYPE_NONE, CTYPE_SHORT, CTYPE_USHORT, CTYPE_INT,
     CTYPE_UINT, CTYPE_LONG, CTYPE_ULONG, CTYPE_CHAR,
-    CTYPE_STRING, CTYPE_FLOAT, CTYPE_DOUBLE, CTYPE_UNKNOWN, CTYPE_UNSUPPORTED
+    CTYPE_STRING, CTYPE_FLOAT, CTYPE_DOUBLE, CTYPE_POINTER,
+    CTYPE_UNKNOWN, CTYPE_UNSUPPORTED = 16
 } cpoly_type;
 
 /// @brief Function to be called to notify user of using too many arguments
@@ -59,11 +60,16 @@ const char* ctype2str(cpoly_type typ);
 
 /// @brief internal cpoly function to return type of 1 arg
 #define cpoly__1(var) (unsigned long)cpoly__1_wrap(var)
-#define cpoly__1_wrap(var) cpoly_switch_type(var,                                \
+#define cpoly__1_wrap(var) cpoly_switch_type(var,                           \
     short: CTYPE_SHORT, unsigned short: CTYPE_USHORT,                       \
-    int: CTYPE_INT, unsigned int: CTYPE_UINT, long: CTYPE_LONG,              \
+    int: CTYPE_INT, unsigned int: CTYPE_UINT, long: CTYPE_LONG,             \
     unsigned long: CTYPE_ULONG, char: CTYPE_CHAR, char*: CTYPE_STRING,      \
     const char*: CTYPE_STRING, float: CTYPE_FLOAT, double: CTYPE_DOUBLE,    \
+    int*: CTYPE_POINTER, unsigned int*: CTYPE_POINTER,                      \
+    void*: CTYPE_POINTER, long*: CTYPE_POINTER,                             \
+    unsigned long*:CTYPE_POINTER, short*:CTYPE_POINTER,                     \
+    unsigned short*: CTYPE_POINTER,                                         \
+    double*: CTYPE_POINTER, float*:CTYPE_POINTER,                           \
     default: CTYPE_UNKNOWN                                                  \
 )
 

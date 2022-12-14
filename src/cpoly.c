@@ -31,7 +31,7 @@ unsigned int cpoly_arg_len(cpoly_fmt_type fmt) {
 const char* CTYP2STR[] = {
     "none", "short", "unsigned short", "int", "unsigned int",
     "long", "unsigned long", "char", "string (char*, const char*)",
-    "float", "double", "unknown ( custom )", "(too many arguments.)"
+    "float", "double", "pointer", "unknown ( custom )",
 };
 
 
@@ -39,5 +39,8 @@ const char* CTYP2STR[] = {
 /// @param typ the ctype to convert
 /// @return string equivalent of CTYPE_type enums
 const char* ctype2str(cpoly_type typ) {
+    if (typ==CTYPE_UNSUPPORTED) {
+        return "( too many arguments )";
+    }
     return CTYP2STR[typ];
 }
